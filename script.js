@@ -1,4 +1,4 @@
-/* [1. 페이지 관리자] */
+/* [1. 페이지 관리자] - 섹션 로드 및 초기화 로직 */
 const PageManager = {
     async load(pageName) {
         const mainContent = document.getElementById('main-content');
@@ -12,19 +12,31 @@ const PageManager = {
 
             window.scrollTo(0, 0);
 
-            if (pageName === 'press') fetchPressData(); 
+            // 페이지별 특화 로직 실행
+            if (pageName === 'press') {
+                if (allPressItems.length === 0) {
+                    fetchPressData(); 
+                } else {
+                    renderPressPage(1); 
+                }
+            } 
             if (pageName === 'instructor') InstructorManager.display();
             
-            // 페이지 이동 시 열려있는 메뉴 닫기
+            // 페이지 이동 시 열려있는 드롭다운 메뉴 닫기
             document.querySelectorAll('.tree-content').forEach(t => t.classList.remove('show'));
         } catch (e) {
             console.error("로드 실패:", e);
-            mainContent.innerHTML = "<p style='text-align:center; padding:100px;'>페이지를 찾을 수 없습니다. 😥</p>";
+            if(pageName === 'home') {
+                mainContent.innerHTML = "<div style='text-align:center; padding:100px;'>홈 화면을 로드하는 중...</div>";
+                setTimeout(() => this.load('home'), 500);
+            } else {
+                mainContent.innerHTML = "<p style='text-align:center; padding:100px;'>페이지를 찾을 수 없습니다. 😥</p>";
+            }
         }
     }
 };
 
-/* [2. 강사 관리자] */
+/* [2. 강사 관리자] - 슬라이더 및 데이터 관리 */
 const InstructorManager = {
     currentSlide: 0,
     currentType: 'main',
@@ -80,7 +92,7 @@ const InstructorManager = {
     }
 };
 
-/* [3. UI 관리자] */
+/* [3. UI 관리자] - 모달, 메뉴, 팝업 제어 */
 const UIManager = {
     toggleMenu(event, treeId) {
         event.preventDefault();
@@ -96,8 +108,6 @@ const UIManager = {
         if (modal) {
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
-            
-            // 교육문의 창이 열릴 때 초기 높이 자동 조절
             if(id === 'contactModal') {
                 const textarea = document.getElementById('message');
                 if(textarea) setTimeout(() => autoResize(textarea), 100);
@@ -114,20 +124,20 @@ const UIManager = {
     openImageModal(imageSrc, title, text) {
         const bg = document.getElementById('modalBgContainer');
         const desc = document.getElementById('modalDescription');
-        if (bg) {
+        const titleEl = document.getElementById('modalTitle');
+        if (bg && titleEl && desc) {
             bg.style.backgroundImage = `url('${imageSrc}')`;
-            document.getElementById('modalTitle').innerText = title;
-            if (desc) desc.innerHTML = text; // <br> 허용을 위해 innerHTML 사용
+            titleEl.innerText = title;
+            desc.innerHTML = text; 
             this.openModal('imageModal');
         }
     },
-    // [추가됨] 유튜브 등 외부 링크 연결 기능
     openExternalLink(url) {
         if (url) window.open(url, '_blank');
     }
 };
 
-/* [4. 보도자료 데이터 연동] */
+/* [4. 보도자료 데이터 연동] - 구글 시트 연동 및 렌더링 */
 const SHEET_ID = '1yGso1dSQuo41zRqlusV-Wbhy2uh9Q8DigBDo53YwgR8';
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 let allPressItems = [];
@@ -144,20 +154,40 @@ async function fetchPressData() {
         }));
         renderPressPage(1);
     } catch (e) {
-        console.error("보도자료 에러:", e);
+        console.error("데이터 로드 에러:", e);
     }
 }
 
 function renderPressPage(page) {
     const grid = document.getElementById('pressGrid');
     if (!grid) return;
+
+    const navHtml = `
+        <div class="press-nav-container">
+            <button class="back-home-btn" onclick="PageManager.load('about')">← 협회소개로</button>
+        </div>`;
+
+    // 1. [데이터 확인] 로딩 중인 상태를 방지하기 위해 데이터 유무를 먼저 체크합니다.
+    if (!allPressItems || allPressItems.length === 0) {
+        grid.innerHTML = "<p style='text-align:center; padding:50px;'>데이터를 불러오는 중입니다... 🚀</p>";
+        // 데이터가 아직 안 왔다면 다시 불러오기 시도
+        fetchPressData();
+        return;
+    }
+
+    // 2. [중복 버튼 제거] JS에서 버튼을 또 만들지 않습니다. 
+    // HTML 파일(press.html)에 있는 "← 협회소개로" 버튼 하나만 사용합니다.
+
     const items = allPressItems.slice((page - 1) * 10, page * 10);
+    
+    // 3. [핵심 데이터 렌더링] 이 부분이 살아있어야 카드가 나옵니다!
     grid.innerHTML = items.map(item => `
         <a href="${item.link}" target="_blank" class="press-card">
             <div class="press-date">${item.date}</div>
             <div class="press-content">${item.title}</div>
             <div class="press-tag">보도자료</div>
         </a>`).join('');
+
     renderPagination(page);
 }
 
@@ -172,7 +202,7 @@ function renderPagination(currentPage) {
     area.innerHTML = html + `<span onclick="renderPressPage(${total})">&raquo;</span>`;
 }
 
-/* [5. 이메일 전송] */
+/* [5. 이메일 전송 (EmailJS)] */
 function sendEmail(event) {
     event.preventDefault();
     const btn = event.target.querySelector('.submit-btn');
@@ -190,34 +220,38 @@ function sendEmail(event) {
         event.target.reset();
         if(btn) btn.innerText = "제출하기";
     }).catch(err => {
-        alert("전송에 실패했습니다. 다시 시도해 주세요.");
+        alert("전송 실패: " + err);
         if(btn) btn.innerText = "제출하기";
     });
 }
 
-/* [6. 이벤트 리스너 통합] */
+/* [6. 유틸리티 및 이벤트 리스너] */
+function autoResize(textarea) {
+    if(!textarea) return;
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     if (typeof emailjs !== 'undefined') emailjs.init("JdkbG9fav2h4LOu9B");
     PageManager.load('home');
 });
 
-// 메뉴 외 영역 클릭 시 닫기 (중복 제거됨)
 document.addEventListener('click', (e) => {
     if (!e.target.closest('.tree-menu')) {
         document.querySelectorAll('.tree-content').forEach(t => t.classList.remove('show'));
     }
 });
 
-// 교육문의창 엔터 가이드
+// 엔터 키 누를 때 콜론(:) 뒤로 커서 이동 가이드 로직
 document.addEventListener('keydown', function(e) {
     const textarea = document.getElementById('message');
     if (e.target === textarea && e.key === 'Enter') {
-        e.preventDefault();
         const text = textarea.value;
         const cursorPosition = textarea.selectionStart;
         const nextTarget = text.indexOf(':', cursorPosition);
-
         if (nextTarget !== -1) {
+            e.preventDefault();
             const newPos = nextTarget + 2; 
             textarea.setSelectionRange(newPos, newPos);
             textarea.focus();
@@ -225,10 +259,3 @@ document.addEventListener('keydown', function(e) {
         }
     }
 });
-
-// 입력창 높이 자동 조절 함수
-function autoResize(textarea) {
-    if(!textarea) return;
-    textarea.style.height = 'auto';
-    textarea.style.height = textarea.scrollHeight + 'px';
-}

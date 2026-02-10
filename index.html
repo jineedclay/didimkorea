@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI활용교육전문 : 미래디지털AI협회</title>
+    
+    <link rel="stylesheet" href="style.css?v=7.1">
+    <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="nav-item" onclick="PageManager.load('home'); return false;">홈</a>
+    
+        <div class="tree-menu">
+            <a href="#" class="tree-toggle" onclick="UIManager.toggleMenu(event, 'about'); return false;">협회 소개</a>
+            <div id="about-tree" class="tree-content">
+                <a href="#" onclick="PageManager.load('greetings'); return false;">ㄴ 협회장 인사말</a>
+                <a href="#" onclick="PageManager.load('about'); return false;">ㄴ 협회소개</a>
+            </div>
+        </div>
+
+        <div class="tree-menu">
+            <a href="#" class="tree-toggle" onclick="UIManager.toggleMenu(event, 'instructor'); return false;">강사소개</a>
+            <div id="instructor-tree" class="tree-content">
+                <a href="#" onclick="InstructorManager.loadAndDisplay('main'); return false;">ㄴ 대표강사</a>
+                <a href="#" onclick="InstructorManager.loadAndDisplay('expert'); return false;">ㄴ 전임강사</a>
+            </div>
+        </div>
+
+        <a href="#" class="nav-item" onclick="PageManager.load('curriculum'); return false;">교육과정</a>
+        <a href="#" class="nav-item" onclick="UIManager.openModal('contactModal'); return false;">교육문의</a>
+    </nav>
+
+    <main id="main-content"></main>
+
+    <footer>
+        <p>상호명: 미래디지털AI협회 | 협회장 : 서순례</p>
+        <p>이메일: jineedclay@gmail.com</p>
+        <p>&copy; 2026 Future Digital-AI Association. All rights reserved.</p>
+    </footer>
+
+    <div id="modal-container">
+        <div id="imageModal" class="modal" onclick="UIManager.closeModal('imageModal')">
+            <div class="modal-content image-popup-style" onclick="event.stopPropagation()">
+                <span class="close-btn" onclick="UIManager.closeModal('imageModal')">&times;</span>
+                <div id="modalBgContainer" class="modal-bg-container">
+                    <div class="modal-text-content">
+                        <h3 id="modalTitle">VISION</h3>
+                        <p id="modalDescription">내용</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="contactModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="UIManager.closeModal('contactModal')">&times;</span>
+                <h2>교육 문의하기</h2>
+                <form onsubmit="sendEmail(event)">
+                    <div class="form-group">
+                        <label>문의 제목 *</label>
+                        <input type="text" id="subject" placeholder="예: 생성형 AI 강의 요청드립니다." required>
+                    </div>
+                    <div class="form-group">
+                        <label>문의 내용 *</label>
+                        <textarea id="message" required>1. 강의 일자:
+2. 강의 시간: 
+3. 강의 장소: 
+4. 예상 인원: 
+5. 기타 요청사항:</textarea>
+                    </div>
+                    <div class="form-group"><label>휴대폰 번호 *</label><input type="text" id="phone" placeholder="010-0000-0000" required></div>
+                    <div class="form-group"><label>이메일 *</label><input type="email" id="email" placeholder="email@example.com" required></div>
+                    <div class="form-group"><label>보낸 사람(담당자) *</label><input type="text" id="sender" placeholder="홍길동" required></div>
+                    <button type="submit" class="submit-btn small-btn">제출하기</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <a href="#" id="backToTop">TOP</a>
+    <script src="script.js"></script>
+</body>
+</html>

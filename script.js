@@ -239,29 +239,30 @@ function renderPagination(currentPage) {
     area.innerHTML = html + `<span onclick="renderPressPage(${total})">&raquo;</span>`;
 }
 
-/* [5. 이메일 전송 (EmailJS)] */
+/* [5. 이메일 전송 (EmailJS) - 최종 싱크 조절 버전] */
 function sendEmail(event) {
     event.preventDefault();
     const btn = event.target.querySelector('.submit-btn');
     if(btn) btn.innerText = "전송 중...";
 
-    // 📍 EmailJS 템플릿의 {{중괄호}} 안의 이름과 '완벽하게' 일치시켜야 합니다.
+    // 📍 여기서 왼쪽의 이름(title, name 등)이 EmailJS 템플릿의 {{중괄호}} 안 이름과 같아야 합니다.
     const templateParams = {
-        title: document.getElementById('subject').value,   // {{title}}에 매칭
-        name: document.getElementById('sender').value,     // {{name}}에 매칭
-        phone: document.getElementById('phone').value,     // {{phone}}에 매칭
-        email: document.getElementById('email').value,     // {{email}}에 매칭
-        content: document.getElementById('message').value  // {{content}}에 매칭
+        title: document.getElementById('subject').value,   // {{title}}
+        name: document.getElementById('sender').value,     // {{name}}
+        phone: document.getElementById('phone').value,     // {{phone}}
+        email: document.getElementById('email').value,     // {{email}}
+        content: document.getElementById('message').value  // {{content}}
     };
 
     emailjs.send("service_153cti7", "template_izxmowt", templateParams)
     .then(() => {
         alert("접수되었습니다! 곧 연락드리겠습니다. 😊");
         UIManager.closeModal('contactModal');
-        event.target.reset();
+        event.target.reset(); // 폼 초기화
         if(btn) btn.innerText = "제출하기";
     }).catch(err => {
-        alert("전송 실패: " + JSON.stringify(err)); // 에러 내용을 더 자세히 출력
+        console.error("전송 에러:", err);
+        alert("전송 실패: " + JSON.stringify(err));
         if(btn) btn.innerText = "제출하기";
     });
 }

@@ -244,19 +244,24 @@ function sendEmail(event) {
     event.preventDefault();
     const btn = event.target.querySelector('.submit-btn');
     if(btn) btn.innerText = "전송 중...";
-    emailjs.send("service_153cti7", "template_izxmowt", {
-        subject: document.getElementById('subject').value,
-        sender: document.getElementById('sender').value,
-        phone: document.getElementById('phone').value,
-        email: document.getElementById('email').value,
-        message: document.getElementById('message').value
-    }).then(() => {
+
+    // 📍 EmailJS 템플릿의 {{중괄호}} 안의 이름과 '완벽하게' 일치시켜야 합니다.
+    const templateParams = {
+        title: document.getElementById('subject').value,   // {{title}}에 매칭
+        name: document.getElementById('sender').value,     // {{name}}에 매칭
+        phone: document.getElementById('phone').value,     // {{phone}}에 매칭
+        email: document.getElementById('email').value,     // {{email}}에 매칭
+        content: document.getElementById('message').value  // {{content}}에 매칭
+    };
+
+    emailjs.send("service_153cti7", "template_izxmowt", templateParams)
+    .then(() => {
         alert("접수되었습니다! 곧 연락드리겠습니다. 😊");
         UIManager.closeModal('contactModal');
         event.target.reset();
         if(btn) btn.innerText = "제출하기";
     }).catch(err => {
-        alert("전송 실패: " + err);
+        alert("전송 실패: " + JSON.stringify(err)); // 에러 내용을 더 자세히 출력
         if(btn) btn.innerText = "제출하기";
     });
 }

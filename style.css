@@ -199,27 +199,35 @@ nav {
     flex-shrink: 0;
 }
 
-/* 커리큘럼 모달 - 스크롤 수정 */
+/* 커리큘럼 드로어 */
 #curriculumDetailModal {
-    align-items: center !important;
-    overflow-y: hidden !important;
+    align-items: stretch !important;
+    justify-content: flex-end !important;
+    padding: 0 !important;
 }
 
 .cdm-wrap {
     background: #ffffff;
-    border-radius: 24px;
-    width: 92%;
-    max-width: 960px;
-    max-height: 90vh;
-    overflow: auto;
+    border-radius: 24px 0 0 24px;
+    width: 580px;
+    max-width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
     position: relative;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-    animation: cdmIn 0.35s cubic-bezier(0.22,1,0.36,1);
+    box-shadow: -10px 0 60px rgba(0,0,0,0.35);
+    animation: cdmSlideIn 0.38s cubic-bezier(0.22,1,0.36,1);
+    display: flex;
+    flex-direction: column;
+}
+@keyframes cdmSlideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to   { transform: translateX(0);    opacity: 1; }
 }
 
-/* 모달 내부 스크롤바 스타일 */
-.cdm-wrap::-webkit-scrollbar { width: 6px; }
-.cdm-wrap::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 0 24px 24px 0; }
+/* 드로어 내부 스크롤바 */
+.cdm-wrap::-webkit-scrollbar { width: 5px; }
+.cdm-wrap::-webkit-scrollbar-track { background: #f1f5f9; }
 .cdm-wrap::-webkit-scrollbar-thumb { background: #c7d2fe; border-radius: 3px; }
 .cdm-wrap::-webkit-scrollbar-thumb:hover { background: #818cf8; }
 @keyframes cdmIn {
@@ -228,79 +236,84 @@ nav {
 }
 
 .cdm-close {
-    position: absolute; top: 18px; right: 20px;
-    background: rgba(0,0,0,0.08); border: none; color: #555;
+    position: absolute; top: 20px; right: 20px;
+    background: rgba(255,255,255,0.2); border: none; color: #fff;
     font-size: 1rem; cursor: pointer; transition: all 0.2s;
-    line-height: 1; width: 32px; height: 32px; border-radius: 50%;
+    line-height: 1; width: 34px; height: 34px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     z-index: 10;
 }
-.cdm-close:hover { background: rgba(0,0,0,0.15); color: #000; }
+.cdm-close:hover { background: rgba(255,255,255,0.35); }
 
-/* 헤더 */
+/* 헤더 (드로어 상단 고정) */
 .cdm-header {
-    background: linear-gradient(135deg, #1a56db 0%, #0e3fa3 50%, #6d28d9 100%);
-    text-align: center;
-    padding: 44px 32px 36px;
+    background: linear-gradient(160deg, #1a56db 0%, #6d28d9 100%);
+    text-align: left;
+    padding: 48px 32px 32px;
     position: relative;
     overflow: hidden;
+    flex-shrink: 0;
 }
 .cdm-header::before {
     content: '';
     position: absolute; inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 60%);
 }
 .cdm-badge {
     display: inline-block;
-    background: rgba(255,255,255,0.2);
-    border: 1px solid rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.35);
     color: #fff;
-    font-size: 0.88rem;
+    font-size: 0.82rem;
     font-weight: 700;
-    padding: 6px 20px;
+    padding: 5px 16px;
     border-radius: 50px;
     letter-spacing: 0.08em;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     position: relative;
 }
 .cdm-title {
-    font-size: 2.4rem;
+    font-size: 1.9rem;
     font-weight: 900;
     color: #fff;
-    margin: 0 0 12px;
-    line-height: 1.25;
+    margin: 0 0 10px;
+    line-height: 1.3;
     letter-spacing: -0.5px;
     position: relative;
 }
 .cdm-sub {
-    color: rgba(255,255,255,0.65);
-    font-size: 1rem;
+    color: rgba(255,255,255,0.6);
+    font-size: 0.9rem;
     margin: 0;
     position: relative;
 }
 
-/* 본문 영역 */
-.cdm-body { padding: 36px 36px 60px; background: #f8f9fc; }
+/* 본문 영역 (스크롤 영역) */
+.cdm-body {
+    padding: 28px 28px 48px;
+    background: #f8f9fc;
+    flex: 1;
+}
 
-/* 세션 카드 그리드 */
+/* 세션 카드 - 드로어에선 1열 */
 .cdm-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 28px;
 }
 .cdm-card {
     background: #fff;
-    border-radius: 16px;
-    padding: 26px 22px;
+    border-radius: 14px;
+    padding: 20px 20px;
     display: flex;
     gap: 16px;
     align-items: flex-start;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-    border-top: 4px solid var(--session-color, #1a56db);
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    border-left: 5px solid var(--session-color, #1a56db);
     transition: transform 0.2s, box-shadow 0.2s;
 }
-.cdm-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+.cdm-card:hover { transform: translateX(4px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
 .cdm-card:nth-child(1) { --session-color: #ef4444; }
 .cdm-card:nth-child(2) { --session-color: #3b82f6; }
 .cdm-card:nth-child(3) { --session-color: #8b5cf6; }
@@ -309,7 +322,7 @@ nav {
 .cdm-card:nth-child(6) { --session-color: #0ea5e9; }
 
 .cdm-num {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 900;
     color: var(--session-color, #1a56db);
     min-width: 36px;
@@ -321,15 +334,15 @@ nav {
     color: #374151;
     font-size: 0.95rem;
     line-height: 1.65;
-    margin: 0 0 6px;
+    margin: 0 0 4px;
     word-break: keep-all;
 }
 .cdm-instructor {
     display: inline-block;
-    margin-top: 12px;
+    margin-top: 10px;
     background: #f1f5f9;
     color: #1a56db;
-    font-size: 0.85rem;
+    font-size: 0.83rem;
     font-weight: 700;
     padding: 4px 14px;
     border-radius: 50px;
@@ -393,15 +406,12 @@ nav {
 
 /* 모바일 대응 */
 @media screen and (max-width: 768px) {
-    #curriculumDetailModal { padding: 16px 10px 40px; }
-    .cdm-header { padding: 32px 20px 28px; }
-    .cdm-title { font-size: 1.6rem; }
-    .cdm-sub { font-size: 0.88rem; }
-    .cdm-body { padding: 22px 16px 28px; }
-    .cdm-grid { grid-template-columns: 1fr; gap: 12px; }
-    .cdm-topic { font-size: 0.92rem; }
+    .cdm-wrap { width: 100%; border-radius: 0; }
+    .cdm-header { padding: 48px 20px 24px; }
+    .cdm-title { font-size: 1.5rem; }
+    .cdm-body { padding: 20px 16px 48px; }
     .cdm-benefits-grid { grid-template-columns: 1fr; gap: 10px; }
-    .cdm-benefit-item { font-size: 0.9rem; }
+    .cdm-benefit-item { font-size: 0.88rem; }
     .course-detail-badge { display: none; }
 }
 

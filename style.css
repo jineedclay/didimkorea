@@ -201,24 +201,28 @@ nav {
 
 /* 커리큘럼 모달 - 스크롤 수정 */
 #curriculumDetailModal {
-    align-items: flex-start !important;
-    overflow-y: auto !important;
-    padding: 48px 20px 60px;
-    box-sizing: border-box;
+    align-items: center !important;
+    overflow-y: hidden !important;
 }
 
 .cdm-wrap {
     background: #ffffff;
     border-radius: 24px;
-    width: 100%;
+    width: 92%;
     max-width: 960px;
-    margin: 0 auto;
+    max-height: 88vh;
+    overflow-y: auto;
+    overflow-x: hidden;
     position: relative;
     box-shadow: 0 20px 60px rgba(0,0,0,0.4);
     animation: cdmIn 0.35s cubic-bezier(0.22,1,0.36,1);
-    overflow: hidden;
-    flex-shrink: 0;
 }
+
+/* 모달 내부 스크롤바 스타일 */
+.cdm-wrap::-webkit-scrollbar { width: 6px; }
+.cdm-wrap::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 0 24px 24px 0; }
+.cdm-wrap::-webkit-scrollbar-thumb { background: #c7d2fe; border-radius: 3px; }
+.cdm-wrap::-webkit-scrollbar-thumb:hover { background: #818cf8; }
 @keyframes cdmIn {
     from { opacity: 0; transform: translateY(24px) scale(0.97); }
     to   { opacity: 1; transform: translateY(0) scale(1); }

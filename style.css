@@ -210,9 +210,8 @@ nav {
     border-radius: 24px;
     width: 92%;
     max-width: 960px;
-    max-height: 88vh;
-    overflow-y: auto;
-    overflow-x: hidden;
+    max-height: 90vh;
+    overflow: auto;
     position: relative;
     box-shadow: 0 20px 60px rgba(0,0,0,0.4);
     animation: cdmIn 0.35s cubic-bezier(0.22,1,0.36,1);
@@ -281,7 +280,7 @@ nav {
 }
 
 /* 본문 영역 */
-.cdm-body { padding: 36px 36px 44px; background: #f8f9fc; }
+.cdm-body { padding: 36px 36px 60px; background: #f8f9fc; }
 
 /* 세션 카드 그리드 */
 .cdm-grid {
@@ -376,7 +375,7 @@ nav {
 .cdm-benefit-item small { color: #a16207; font-size: 0.8rem; }
 
 /* 하단 CTA */
-.cdm-footer { text-align: center; }
+.cdm-footer { text-align: center; padding-bottom: 16px; }
 .cdm-footer .blue-round-btn {
     background: linear-gradient(135deg, #1a56db, #6d28d9) !important;
     color: #fff !important;

@@ -183,236 +183,175 @@ nav {
     transition: 0.3s ease; display: inline-block; 
 }
 
-/* [8-1. 교육과정 클릭 배지 및 커리큘럼 상세 모달] */
-.course-item--clickable { cursor: pointer; position: relative; }
+/* [8-1. 교육과정 클릭 배지] */
+.course-item--clickable { cursor: pointer; }
 .course-item--clickable:hover { border-color: #00d2ff; background: #1a2a2a; }
 .course-detail-badge {
-    margin-left: auto;
+    margin-left: auto; flex-shrink: 0;
     background: linear-gradient(135deg, #00d2ff, #0072ff);
-    color: #000;
-    font-size: 0.78rem;
-    font-weight: 800;
-    padding: 6px 14px;
-    border-radius: 50px;
-    white-space: nowrap;
-    letter-spacing: 0.02em;
-    flex-shrink: 0;
+    color: #000; font-size: 0.78rem; font-weight: 800;
+    padding: 6px 14px; border-radius: 50px; white-space: nowrap;
 }
+@media (max-width: 768px) { .course-detail-badge { display: none; } }
 
-/* 커리큘럼 드로어 */
+/* ── 커리큘럼 모달 ─────────────────────────────────────────
+   핵심: align-items:flex-start → flex child가 뷰포트를 넘어도 클리핑 안 됨
+         overflow-y:auto        → 오버플로우 시 오버레이 자체가 스크롤
+   ──────────────────────────────────────────────────────── */
 #curriculumDetailModal {
-    align-items: stretch !important;
-    justify-content: flex-end !important;
-    padding: 0 !important;
+    align-items: flex-start !important;
+    overflow-y: auto !important;
+    padding: 48px 20px 60px;
+    box-sizing: border-box;
 }
 
 .cdm-wrap {
-    background: #ffffff;
-    border-radius: 24px 0 0 24px;
-    width: 580px;
-    max-width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
+    background: #fff;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 880px;
+    margin: 0 auto;
     position: relative;
-    box-shadow: -10px 0 60px rgba(0,0,0,0.35);
-    animation: cdmSlideIn 0.38s cubic-bezier(0.22,1,0.36,1);
-    display: flex;
-    flex-direction: column;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.45);
+    overflow: hidden;
+    animation: cdmIn 0.32s cubic-bezier(0.22,1,0.36,1);
 }
-@keyframes cdmSlideIn {
-    from { transform: translateX(100%); opacity: 0; }
-    to   { transform: translateX(0);    opacity: 1; }
-}
-
-/* 드로어 내부 스크롤바 */
-.cdm-wrap::-webkit-scrollbar { width: 5px; }
-.cdm-wrap::-webkit-scrollbar-track { background: #f1f5f9; }
-.cdm-wrap::-webkit-scrollbar-thumb { background: #c7d2fe; border-radius: 3px; }
-.cdm-wrap::-webkit-scrollbar-thumb:hover { background: #818cf8; }
 @keyframes cdmIn {
-    from { opacity: 0; transform: translateY(24px) scale(0.97); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
+/* 닫기 버튼 */
 .cdm-close {
-    position: absolute; top: 20px; right: 20px;
-    background: rgba(255,255,255,0.2); border: none; color: #fff;
-    font-size: 1rem; cursor: pointer; transition: all 0.2s;
-    line-height: 1; width: 34px; height: 34px; border-radius: 50%;
+    position: absolute; top: 18px; right: 18px; z-index: 10;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: rgba(255,255,255,0.22); border: none; color: #fff;
+    font-size: 1rem; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    z-index: 10;
+    transition: background 0.2s;
 }
-.cdm-close:hover { background: rgba(255,255,255,0.35); }
+.cdm-close:hover { background: rgba(255,255,255,0.38); }
 
-/* 헤더 (드로어 상단 고정) */
+/* 헤더 */
 .cdm-header {
-    background: linear-gradient(160deg, #1a56db 0%, #6d28d9 100%);
-    text-align: left;
-    padding: 48px 32px 32px;
+    background: linear-gradient(135deg, #1a56db 0%, #6d28d9 100%);
+    padding: 44px 40px 36px;
+    text-align: center;
     position: relative;
     overflow: hidden;
-    flex-shrink: 0;
 }
-.cdm-header::before {
+.cdm-header::after {
     content: '';
     position: absolute; inset: 0;
-    background: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 60%);
+    background: radial-gradient(ellipse at 70% 30%, rgba(255,255,255,0.1) 0%, transparent 65%);
+    pointer-events: none;
 }
 .cdm-badge {
     display: inline-block;
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.35);
-    color: #fff;
-    font-size: 0.82rem;
-    font-weight: 700;
-    padding: 5px 16px;
-    border-radius: 50px;
-    letter-spacing: 0.08em;
-    margin-bottom: 14px;
-    position: relative;
+    background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4);
+    color: #fff; font-size: 0.82rem; font-weight: 700;
+    padding: 5px 18px; border-radius: 50px; letter-spacing: 0.08em;
+    margin-bottom: 14px; position: relative;
 }
 .cdm-title {
-    font-size: 1.9rem;
-    font-weight: 900;
-    color: #fff;
-    margin: 0 0 10px;
-    line-height: 1.3;
-    letter-spacing: -0.5px;
-    position: relative;
+    font-size: 2rem; font-weight: 900; color: #fff;
+    margin: 0 0 10px; line-height: 1.28; position: relative;
 }
 .cdm-sub {
-    color: rgba(255,255,255,0.6);
-    font-size: 0.9rem;
-    margin: 0;
-    position: relative;
+    color: rgba(255,255,255,0.62); font-size: 0.92rem; margin: 0; position: relative;
 }
 
-/* 본문 영역 (스크롤 영역) */
-.cdm-body {
-    padding: 28px 28px 48px;
-    background: #f8f9fc;
-    flex: 1;
-}
+/* 본문 */
+.cdm-body { padding: 36px 36px 52px; background: #f5f7fb; }
 
-/* 세션 카드 - 드로어에선 1열 */
+/* 세션 카드 2열 그리드 */
 .cdm-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
     margin-bottom: 28px;
 }
 .cdm-card {
     background: #fff;
     border-radius: 14px;
-    padding: 20px 20px;
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
-    border-left: 5px solid var(--session-color, #1a56db);
+    padding: 22px 20px;
+    display: flex; gap: 14px; align-items: flex-start;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    border-top: 4px solid var(--sc);
     transition: transform 0.2s, box-shadow 0.2s;
 }
-.cdm-card:hover { transform: translateX(4px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
-.cdm-card:nth-child(1) { --session-color: #ef4444; }
-.cdm-card:nth-child(2) { --session-color: #3b82f6; }
-.cdm-card:nth-child(3) { --session-color: #8b5cf6; }
-.cdm-card:nth-child(4) { --session-color: #f97316; }
-.cdm-card:nth-child(5) { --session-color: #10b981; }
-.cdm-card:nth-child(6) { --session-color: #0ea5e9; }
+.cdm-card:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(0,0,0,0.11); }
+.cdm-card:nth-child(1) { --sc: #ef4444; }
+.cdm-card:nth-child(2) { --sc: #3b82f6; }
+.cdm-card:nth-child(3) { --sc: #8b5cf6; }
+.cdm-card:nth-child(4) { --sc: #f97316; }
+.cdm-card:nth-child(5) { --sc: #10b981; }
+.cdm-card:nth-child(6) { --sc: #0ea5e9; }
 
 .cdm-num {
-    font-size: 1.5rem;
-    font-weight: 900;
-    color: var(--session-color, #1a56db);
-    min-width: 36px;
-    line-height: 1;
-    padding-top: 2px;
+    font-size: 1.5rem; font-weight: 900; color: var(--sc);
+    min-width: 34px; line-height: 1; padding-top: 2px;
 }
 .cdm-card-body { flex: 1; }
 .cdm-topic {
-    color: #374151;
-    font-size: 0.95rem;
-    line-height: 1.65;
-    margin: 0 0 4px;
-    word-break: keep-all;
+    color: #374151; font-size: 0.93rem; line-height: 1.65;
+    margin: 0 0 4px; word-break: keep-all;
 }
 .cdm-instructor {
-    display: inline-block;
-    margin-top: 10px;
-    background: #f1f5f9;
-    color: #1a56db;
-    font-size: 0.83rem;
-    font-weight: 700;
-    padding: 4px 14px;
-    border-radius: 50px;
-    border: 1px solid #dbeafe;
+    display: inline-block; margin-top: 10px;
+    background: #f1f5f9; color: #1a56db;
+    font-size: 0.82rem; font-weight: 700;
+    padding: 3px 12px; border-radius: 50px; border: 1px solid #dbeafe;
 }
 
 /* 특별혜택 */
 .cdm-benefits {
-    background: linear-gradient(135deg, #fefce8, #fef9c3);
-    border: 1px solid #fde68a;
-    border-radius: 18px;
-    padding: 28px 28px 24px;
-    margin-bottom: 32px;
+    background: linear-gradient(135deg, #fffbeb, #fef3c7);
+    border: 1px solid #fcd34d;
+    border-radius: 16px;
+    padding: 26px 26px 22px;
+    margin-bottom: 30px;
 }
 .cdm-benefits-title {
-    font-size: 1.05rem;
-    font-weight: 800;
-    color: #92400e;
-    margin: 0 0 18px;
-    letter-spacing: 0.03em;
+    font-size: 1rem; font-weight: 800; color: #92400e;
+    margin: 0 0 16px; letter-spacing: 0.02em;
 }
 .cdm-benefits-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
 }
 .cdm-benefit-item {
-    background: rgba(255,255,255,0.7);
-    border: 1px solid rgba(253,211,77,0.5);
-    border-radius: 12px;
-    padding: 18px 14px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 10px;
-    color: #78350f;
-    font-size: 0.93rem;
-    line-height: 1.55;
-    word-break: keep-all;
+    background: rgba(255,255,255,0.75); border: 1px solid rgba(252,211,77,0.5);
+    border-radius: 12px; padding: 18px 12px;
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; gap: 8px;
+    color: #78350f; font-size: 0.9rem; line-height: 1.55; word-break: keep-all;
 }
-.cdm-benefit-icon { font-size: 1.6rem; }
-.cdm-benefit-item small { color: #a16207; font-size: 0.8rem; }
+.cdm-benefit-icon { font-size: 1.5rem; }
+.cdm-benefit-item small { color: #a16207; font-size: 0.76rem; }
 
-/* 하단 CTA */
-.cdm-footer { text-align: center; padding-bottom: 16px; }
+/* CTA */
+.cdm-footer { text-align: center; }
 .cdm-footer .blue-round-btn {
     background: linear-gradient(135deg, #1a56db, #6d28d9) !important;
-    color: #fff !important;
-    font-weight: 800;
-    padding: 14px 44px !important;
-    border-radius: 50px;
-    cursor: pointer;
-    border: none;
-    font-size: 1.05rem;
-    box-shadow: 0 4px 20px rgba(26,86,219,0.35);
-    transition: 0.3s ease;
-    display: inline-block;
+    color: #fff !important; font-weight: 800;
+    padding: 14px 44px !important; border-radius: 50px;
+    border: none; font-size: 1.05rem; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(26,86,219,0.4);
+    transition: 0.25s ease; display: inline-block;
 }
-.cdm-footer .blue-round-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(26,86,219,0.45); }
+.cdm-footer .blue-round-btn:hover {
+    transform: translateY(-2px); box-shadow: 0 8px 28px rgba(26,86,219,0.5);
+}
 
-/* 모바일 대응 */
-@media screen and (max-width: 768px) {
-    .cdm-wrap { width: 100%; border-radius: 0; }
-    .cdm-header { padding: 48px 20px 24px; }
+/* 모바일 */
+@media (max-width: 768px) {
+    #curriculumDetailModal { padding: 0; }
+    .cdm-wrap { border-radius: 0; min-height: 100vh; }
+    .cdm-header { padding: 56px 20px 28px; }
     .cdm-title { font-size: 1.5rem; }
-    .cdm-body { padding: 20px 16px 48px; }
-    .cdm-benefits-grid { grid-template-columns: 1fr; gap: 10px; }
-    .cdm-benefit-item { font-size: 0.88rem; }
-    .course-detail-badge { display: none; }
+    .cdm-body { padding: 24px 16px 60px; }
+    .cdm-grid { grid-template-columns: 1fr; gap: 10px; }
+    .cdm-benefits-grid { grid-template-columns: 1fr; gap: 8px; }
 }
 
 /* [9. 보도자료 및 페이지네이션 - 중앙 정렬 완벽 보정] */

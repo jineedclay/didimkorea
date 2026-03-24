@@ -183,6 +183,179 @@ nav {
     transition: 0.3s ease; display: inline-block; 
 }
 
+/* [8-1. 교육과정 클릭 배지 및 커리큘럼 상세 모달] */
+.course-item--clickable { cursor: pointer; position: relative; }
+.course-item--clickable:hover { border-color: #00d2ff; background: #1a2a2a; }
+.course-detail-badge {
+    margin-left: auto;
+    background: linear-gradient(135deg, #00d2ff, #0072ff);
+    color: #000;
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding: 6px 14px;
+    border-radius: 50px;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+}
+
+/* 커리큘럼 모달 래퍼 */
+.cdm-wrap {
+    background: #0e0e0e;
+    border: 1px solid #222;
+    border-radius: 24px;
+    width: 92%;
+    max-width: 860px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 48px 44px 40px;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(0,210,255,0.08);
+    animation: cdmIn 0.35s cubic-bezier(0.22,1,0.36,1);
+}
+@keyframes cdmIn {
+    from { opacity: 0; transform: translateY(30px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.cdm-close {
+    position: absolute; top: 20px; right: 22px;
+    background: none; border: none; color: #555;
+    font-size: 1.3rem; cursor: pointer; transition: color 0.2s;
+    line-height: 1;
+}
+.cdm-close:hover { color: #fff; }
+
+/* 헤더 */
+.cdm-header { text-align: center; margin-bottom: 40px; }
+.cdm-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #00d2ff22, #0072ff22);
+    border: 1px solid #00d2ff55;
+    color: #00d2ff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 5px 16px;
+    border-radius: 50px;
+    letter-spacing: 0.05em;
+    margin-bottom: 16px;
+}
+.cdm-title {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #fff;
+    margin: 0 0 10px;
+    line-height: 1.25;
+    letter-spacing: -0.5px;
+}
+.cdm-sub {
+    color: #555;
+    font-size: 0.9rem;
+    margin: 0;
+    letter-spacing: 0.05em;
+}
+
+/* 세션 카드 그리드 */
+.cdm-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 32px;
+}
+.cdm-card {
+    background: #161616;
+    border: 1px solid #242424;
+    border-radius: 16px;
+    padding: 22px 20px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    transition: border-color 0.2s, background 0.2s;
+}
+.cdm-card:hover { border-color: #00d2ff33; background: #1a1a1a; }
+.cdm-num {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #00d2ff;
+    min-width: 34px;
+    line-height: 1;
+    padding-top: 2px;
+}
+.cdm-card-body { flex: 1; }
+.cdm-topic {
+    color: #ccc;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    margin: 0 0 6px;
+    word-break: keep-all;
+}
+.cdm-instructor {
+    display: inline-block;
+    margin-top: 10px;
+    background: #1e2e2e;
+    color: #00d2ff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 50px;
+    border: 1px solid #00d2ff33;
+}
+
+/* 특별혜택 */
+.cdm-benefits {
+    background: linear-gradient(135deg, #0d1f24, #0a1520);
+    border: 1px solid #00d2ff22;
+    border-radius: 18px;
+    padding: 28px 28px 24px;
+    margin-bottom: 32px;
+}
+.cdm-benefits-title {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #00d2ff;
+    margin: 0 0 20px;
+    letter-spacing: 0.05em;
+}
+.cdm-benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+.cdm-benefit-item {
+    background: rgba(0,210,255,0.05);
+    border: 1px solid rgba(0,210,255,0.12);
+    border-radius: 12px;
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    color: #bbb;
+    font-size: 0.84rem;
+    line-height: 1.5;
+    word-break: keep-all;
+}
+.cdm-benefit-icon { font-size: 1.5rem; }
+.cdm-benefit-item small { color: #666; font-size: 0.75rem; }
+
+/* 하단 CTA */
+.cdm-footer { text-align: center; }
+
+/* 모달 스크롤바 */
+.cdm-wrap::-webkit-scrollbar { width: 6px; }
+.cdm-wrap::-webkit-scrollbar-track { background: #111; }
+.cdm-wrap::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+/* 모바일 대응 */
+@media screen and (max-width: 768px) {
+    .cdm-wrap { padding: 36px 20px 28px; }
+    .cdm-title { font-size: 1.5rem; }
+    .cdm-grid { grid-template-columns: 1fr; gap: 10px; }
+    .cdm-benefits-grid { grid-template-columns: 1fr; gap: 10px; }
+    .course-detail-badge { display: none; }
+}
+
 /* [9. 보도자료 및 페이지네이션 - 중앙 정렬 완벽 보정] */
 .press-grid { 
     display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 

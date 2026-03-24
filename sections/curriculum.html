@@ -2,12 +2,13 @@
     <h2 class="section-title">교육 <span>과정</span></h2>
 
     <div class="curriculum-list">
-        <div class="course-item">
+        <div class="course-item course-item--clickable" onclick="UIManager.openModal('curriculumDetailModal')">
             <div class="course-num">01</div>
             <div class="course-text">
                 <h3>AI 활용 전문가 강사 양성 과정</h3>
                 <p>ChatGPT, Gemini, NotebookLM 등 최신 AI 툴 활용법 및 프롬프트 엔지니어링 실습</p>
             </div>
+            <div class="course-detail-badge">5기 모집중 →</div>
         </div>
 
         <div class="course-item">
@@ -39,6 +40,99 @@
             <div class="course-text">
                 <h3>공공기관 및 기업 맞춤형 AX 전략</h3>
                 <p>조직의 특성에 맞는 AI 전환(AX) 전략 수립 및 리더십 교육</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5기 커리큘럼 상세 모달 -->
+    <div id="curriculumDetailModal" class="modal" onclick="if(event.target===this) UIManager.closeModal('curriculumDetailModal')" style="display:none;">
+        <div class="cdm-wrap">
+            <button class="cdm-close" onclick="UIManager.closeModal('curriculumDetailModal')">✕</button>
+
+            <div class="cdm-header">
+                <span class="cdm-badge">✦ 5기 모집</span>
+                <h2 class="cdm-title">AI 활용 전문가<br>강사 양성 과정</h2>
+                <p class="cdm-sub">자격증 과정 수업 커리큘럼</p>
+            </div>
+
+            <div class="cdm-grid">
+                <div class="cdm-card">
+                    <div class="cdm-num">01</div>
+                    <div class="cdm-card-body">
+                        <p class="cdm-topic">▷ 생성형 AI 최신 트렌드</p>
+                        <p class="cdm-topic">▷ 기획파트너 챗GPT와<br>&nbsp;&nbsp;&nbsp;맞춤비서 제미나이 활용하기</p>
+                        <span class="cdm-instructor">홍은희</span>
+                    </div>
+                </div>
+
+                <div class="cdm-card">
+                    <div class="cdm-num">02</div>
+                    <div class="cdm-card-body">
+                        <p class="cdm-topic">▷ AI 업무혁신의 핵심</p>
+                        <p class="cdm-topic">▷ 프롬프트엔지니어링부터<br>&nbsp;&nbsp;&nbsp;데이터 기반 의사결정까지</p>
+                        <span class="cdm-instructor">이혜진</span>
+                    </div>
+                </div>
+
+                <div class="cdm-card">
+                    <div class="cdm-num">03</div>
+                    <div class="cdm-card-body">
+                        <p class="cdm-topic">▷ AI 아트 & 그림책 작가 되기</p>
+                        <p class="cdm-topic">▷ 다양한 AI 아트 소개 및 활용 사례</p>
+                        <p class="cdm-topic">▷ AI 아트로 그림책 작가 되는 방법</p>
+                        <span class="cdm-instructor">셀디쌤</span>
+                    </div>
+                </div>
+
+                <div class="cdm-card">
+                    <div class="cdm-num">04</div>
+                    <div class="cdm-card-body">
+                        <p class="cdm-topic">▷ AI 실무의 완성</p>
+                        <p class="cdm-topic">▷ 캔바 · 챗GPT · 제미나이<br>&nbsp;&nbsp;&nbsp;바이브 코딩 마스터</p>
+                        <span class="cdm-instructor">송귀옥</span>
+                    </div>
+                </div>
+
+                <div class="cdm-card">
+                    <div class="cdm-num">05</div>
+                    <div class="cdm-card-body">
+                        <p class="cdm-topic">▷ 젠스파크: 정보 큐레이션 마스터,<br>&nbsp;&nbsp;&nbsp;똑똑한 AI 비서</p>
+                        <p class="cdm-topic">▷ 클로드: 기본설정에서<br>&nbsp;&nbsp;&nbsp;skill, cowork까지</p>
+                        <span class="cdm-instructor">하연지</span>
+                    </div>
+                </div>
+
+                <div class="cdm-card">
+                    <div class="cdm-num">06</div>
+                    <div class="cdm-card-body">
+                        <p class="cdm-topic">▷ 수강생 현장 강의 실무 역량 강화</p>
+                        <p class="cdm-topic">▷ 강의 시연 및 피드백 제공</p>
+                        <p class="cdm-topic">▷ 줌 활용법 및 Q&A</p>
+                        <span class="cdm-instructor">세리쌤</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cdm-benefits">
+                <h3 class="cdm-benefits-title">★ 특별혜택</h3>
+                <div class="cdm-benefits-grid">
+                    <div class="cdm-benefit-item">
+                        <span class="cdm-benefit-icon">💬</span>
+                        <span>세리쌤과 줌 1:1 컨설팅<br>코칭 시간 30분</span>
+                    </div>
+                    <div class="cdm-benefit-item">
+                        <span class="cdm-benefit-icon">📅</span>
+                        <span>매주 월요일 스터디로<br>SKILL UP</span>
+                    </div>
+                    <div class="cdm-benefit-item">
+                        <span class="cdm-benefit-icon">🏅</span>
+                        <span>미래디지털AI협회<br>선임연구원 위촉<br><small>(~26년 12월 31일)</small></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cdm-footer">
+                <button class="blue-round-btn" onclick="UIManager.closeModal('curriculumDetailModal'); UIManager.openModal('contactModal')">수강 문의하기</button>
             </div>
         </div>
     </div>

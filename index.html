@@ -55,6 +55,13 @@
             </div>
         </div>
 
+        <div id="courseImageModal" class="modal" onclick="UIManager.closeModal('courseImageModal')">
+            <div class="course-image-popup" onclick="event.stopPropagation()">
+                <span class="close-btn" onclick="UIManager.closeModal('courseImageModal')">&times;</span>
+                <img id="coursePopupImg" src="" alt="교육과정 상세" style="max-width:100%; max-height:85vh; display:block; border-radius:12px;">
+            </div>
+        </div>
+
         <div id="contactModal" class="modal">
             <div class="modal-content">
                 <span class="close-btn" onclick="UIManager.closeModal('contactModal')">&times;</span>

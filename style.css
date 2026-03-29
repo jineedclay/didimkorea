@@ -247,7 +247,17 @@ nav {
 }
 .close-btn:hover { color: #c70404 !important; }
 
-/* [11. 교육문의 모달 폼 전용] */
+/* [11. 교육과정 이미지 팝업] */
+.course-image-popup {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+.course-image-popup .close-btn { color: #fff; z-index: 10001; }
+
+/* [12. 교육문의 모달 폼 전용] */
 #contactModal .modal-content { padding: 40px; background: #fff; max-width: 550px; color: #333; }
 #contactModal h2 { margin-top: 0; color: #111; text-align: center; margin-bottom: 30px; }
 .form-group { margin-bottom: 20px; text-align: left; }
